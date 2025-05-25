@@ -13,13 +13,24 @@ const Application = () => {
   const [experience, setExperience] = useState("");
   const [availability, setAvailability] = useState("");
   const navigate = useNavigate();
+
   const handleSubmit = (e) => {
+    // Validate age
+    const age = new Date().getFullYear() - new Date(dob).getFullYear();
+
     e.preventDefault();
     if (name.length < 4) {
       return Swal.fire({
-        title: "Name must be longer then 4 characters",
+        text: "Name must be longer then 4 characters",
+        icon: "warning",
         confirmButtonColor: "#155e75",
       });
+    } else if (age < 18 || age > 70) {
+        return Swal.fire({
+            text: "You must be between 18 and 70 years old to apply.",
+            icon: "warning",
+            confirmButtonColor: "#155e75"
+          });
     }
     navigate("/submission", {
       state: {
@@ -38,7 +49,9 @@ const Application = () => {
   return (
     <div className="bg-[url('/imgs/bg.png')] bg-no-repeat bg-cover min-w-screen min-h-screen flex justify-center p-11">
       <div className="flex flex-col gap-11 w-full lg:w-[60vw] lg:min-h-[70vh] bg-white p-11 rounded-2xl">
-        <h1 className="text-4xl lg:text-5xl font-bold text-gray-700">Apply Now</h1>
+        <h1 className="text-4xl lg:text-5xl font-bold text-gray-700">
+          Apply Now
+        </h1>
         <form className="flex flex-col gap-5 text-xl" onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 lg:grid-cols-2">
             <div className="flex flex-col gap-2 p-4">
@@ -128,7 +141,7 @@ const Application = () => {
                     required
                   />
                   <span className="m-2">Yes</span>
-                  </label>
+                </label>
                 <label>
                   <input
                     onChange={(e) => setRelocate(e.target.value)}
@@ -138,7 +151,7 @@ const Application = () => {
                     required
                   />
                   <span className="m-2">No</span>
-                  </label>
+                </label>
               </div>
             </div>
             {/* experience */}
@@ -154,7 +167,7 @@ const Application = () => {
                     required
                   />
                   <span className="m-2">Yes</span>
-                  </label>
+                </label>
                 <label>
                   <input
                     onChange={(e) => setExperience(e.target.value)}
@@ -164,7 +177,7 @@ const Application = () => {
                     required
                   />
                   <span className="m-2">No</span>
-                  </label>
+                </label>
               </div>
             </div>
             {/* availability */}
@@ -180,7 +193,7 @@ const Application = () => {
                     required
                   />
                   <span className="m-2">Yes</span>
-                  </label>
+                </label>
                 <label>
                   <input
                     onChange={(e) => setAvailability(e.target.value)}
